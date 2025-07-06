@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+.background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(#e0f7fa, #fff);
+}
+.card {
+  position: absolute;
+  bottom: 0;
+  width: 150px;
+  height: 150px;
+  background: #ffcc80;
+  border: 2px solid #ffa726;
+}
+#character {
+  position: absolute;
+  bottom: 0;
+  left: 100px;
+  width: 80px;
+  height: 80px;
+  background: url('https://i.ibb.co/tZtj9mf/character.png') center/cover no-repeat;
+  z-index: 10;
+}

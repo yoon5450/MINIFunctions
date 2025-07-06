@@ -1,4 +1,5 @@
 const stick = document.getElementById("stick");
+const stickWrapper = document.querySelector(".stick-field");
 let posX = 0;
 let posY = 0;
 let velX = 0;
@@ -6,26 +7,35 @@ let velY = 0;
 let jumping = false;
 let lastTime = 0;
 let keys = {};
+let curLoopId;
+let initialized = false;
 
-document.addEventListener("keydown", (e) => {
-  keys[e.code] = true;
-  console.log("keydown", e.code);
-});
+export function initStick() {
+  if (initialized) return; // 이미 등록했으면 재등록 방지
+  initialized = true;
 
-// 왜 keyup 발생할 때 툭 멈추면서 대시할까?
-document.addEventListener("keyup", (e) => {
-  keys[e.code] = false;
-  console.log("keyup", e.code);
-});
+  document.addEventListener("keydown", (e) => {
+    keys[e.code] = true;
+    console.log("keydown", e.code);
+    if (!curLoopId) curLoopId = requestAnimationFrame(gameLoop);
+  });
 
-// 잘은 모르겠는데 조이스틱 만들었는데?
-// 시작 위치만 조정하면 훌륭한 조이스틱이 될 것 같아.
+  document.addEventListener("keyup", (e) => {
+    keys[e.code] = false;
+  });
+
+  document.addEventListener("DOMContentLoaded", (e) => {
+    updatePosition();
+  });
+}
+
+// 조이스틱 루프
 function gameLoop(timestamp) {
   if (!timestamp) lastTime = timestamp;
   const delta = timestamp - lastTime;
   lastTime = timestamp;
 
-  const range = 7; // 이동 거리
+  const range = 5; // 이동 거리
   const returnFactor = 0.9; // 복귀 속도 (1~0 범위에서 0에 가까울수록 빨리 감속)
 
   if (keys["ArrowRight"]) {
@@ -45,15 +55,21 @@ function gameLoop(timestamp) {
   posY = posY * returnFactor;
 
   updatePosition();
+
+  if (Math.abs(posX) + Math.abs(posY) < 1) {
+    curLoopId = null;
+    return;
+  }
+
   requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
-
 function updatePosition() {
-  const centerX = window.innerWidth / 2 - parseInt(stick.offsetWidth);
-  const centerY = window.innerHeight / 2 - parseInt(stick.offsetHeight);
+  const wrapperRect = stickWrapper.getBoundingClientRect();
+  const stickRect = stick.getBoundingClientRect();
 
-  stick.style.left = `${centerX + posX}px`;
-  stick.style.top = `${centerY - posY}px`;
+  stick.style.left = `${posX + wrapperRect.width / 2 - stickRect.width / 2}px`;
+  stick.style.bottom = `${
+    posY + wrapperRect.height / 2 - stickRect.height / 2
+  }px`;
 }

@@ -27,23 +27,27 @@ function gameLoop(timestamp) {
   lastTime = timestamp;
 
   const speed = 0.3; // ms당 이동 속도
+  const acceleration = 0.05; // 가속도
   const friction = 0.9; // 감속 속도 (1~0 범위에서 0에 가까울수록 빨리 감속)
 
   if (keys["ArrowRight"]) {
-    posX += delta * speed;
+    velX += delta * acceleration;
   }
   if (keys["ArrowLeft"]) {
-    posX -= delta * speed;
+    velX -= delta * acceleration;
   }
   if (keys["ArrowUp"]) {
-    posY += delta * speed;
+    velY += delta * acceleration;
   }
   if (keys["ArrowDown"]) {
-    posY -= delta * speed;
+    velY -= delta * acceleration;
   }
 
-  posX = posX * friction;
-  posY = posY * friction;
+  velX *= friction
+  velY *= friction
+
+  posX += velX;
+  posY += velY;
 
   updatePosition();
   requestAnimationFrame(gameLoop);

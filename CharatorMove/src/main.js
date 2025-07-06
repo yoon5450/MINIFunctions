@@ -1,4 +1,4 @@
-const character = document.getElementById("character");
+const stick = document.getElementById("character");
 let posX = 100;
 let posY = 0;
 let velX = 0;
@@ -69,14 +69,14 @@ function throttle(callback, delay) {
 
 function jump() {
   jumping = true;
-  character.style.bottom = "50px";
+  stick.style.bottom = "50px";
   setTimeout(() => {
-    character.style.bottom = "0px";
+    stick.style.bottom = "0px";
     jumping = false;
   }, 80);
 }
 
 function updatePosition() {
-  character.style.left = `${posX}px`;
-  character.style.bottom = `${posY}px`;
+  stick.style.left = `${posX}px`;
+  stick.style.bottom = `${posY}px`;
 }

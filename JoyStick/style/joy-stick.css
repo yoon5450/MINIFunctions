@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: rgb(81, 81, 81);
+}
+
+/* position center 이용하면 안 되는 구나. */
+#stick {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white
+    no-repeat;
+  z-index: 10;
+}

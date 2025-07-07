@@ -56,8 +56,10 @@ function gameLoop(timestamp) {
 
   updatePosition();
 
-  if (Math.abs(posX) + Math.abs(posY) < 1) {
+  // 중간에 멈추네 쉣.
+  if (Math.abs(posX) + Math.abs(posY) < 0.05) {
     curLoopId = null;
+    console.log('stop')
     return;
   }
 
